@@ -1,0 +1,10 @@
+[Unit]
+Description = resolver
+Requires = postgresql-12.service
+
+[Service]
+WorkingDirectory = /root/telegram_filtered_feed/resolver
+ExecStart = /bin/bash ../etc/run_resolver.sh
+
+Restart=always
+RestartSec=3

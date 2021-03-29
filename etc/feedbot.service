@@ -1,0 +1,10 @@
+[Unit]
+Description = feedbot
+Requires = postgresql-12.service
+
+[Service]
+WorkingDirectory = /root/telegram_filtered_feed/feed_bot
+ExecStart = /bin/bash ../etc/run_bot.sh
+
+Restart=always
+RestartSec=3

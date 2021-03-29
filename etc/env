@@ -1,0 +1,16 @@
+#!/bin/bash
+
+export LANG=en_US.utf8
+
+# Absolute path to this script, e.g. /home/user/bin/foo.sh
+export SCRIPT=$(readlink -f -- "$0")
+# Absolute path this script is in, thus /home/user/bin
+export SCRIPTPATH=$(dirname "$SCRIPT")
+
+export PROJECTPATH=$SCRIPTPATH/..
+
+# assuming all scripts where they should be
+export PYTHONPATH=$PYTHONPATH:$PROJECTPATH/
+export FORWARDER_ARGS=""
+export BOT_ARGS=""
+export RESOLVER_ARGS=""

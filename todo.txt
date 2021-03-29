@@ -1,0 +1,86 @@
+questions
+0. !!!! is chat_id unique for every chat (user_x_bot, group_x_bot, channel_x_bot ??
+    if yes i should use chat_id for identifications - AFAIK yes
+0.1 is chat_id the same if user deletes user_x_bot chat & rejoins it again? - YES the same as user_id
+0.2 chat_id seems to be unique. negative for channels/groups, positive for user_x_bot
+8. check che proishodit esli raise v handlere; try catch dobavit'? - HANDLER LOVIT EXCEPTIONS I LOGIRUET
+24. !!!!! razobratsa vse taki kakoi id vozvrawaet event & get_chat - est podozrenie chto modificirovannii?
+    - event.id OK dlya private, group, supergroup; get_chat - ne ok dlya channels
+GREBANIE MSG ID OTLICHAUTSA U SENDER I RECEIVER
+
+27. problem: kak ponyat' source soobwenia, esli source post toje forwardnuli otkuda to??? OTVET: pohodu nikak
+21. skip whitespaces in front of bot commands - OTVET: ne nado, telegram pohodu itak sam whitespace udalyaet
+
+
+TODO:
+bugs:
+- !!!!! validation task не работает нихера. из базы 0 получает
+- !! видимо из-за херового завершения работы catchup подгружает очень старые сообщения. надо разобраться, а то рестарт очень косячно работает
+    - как вариант добавить
+- в какой-то момент форвардер начинает раз в минуту только апдейты получать. видимо проблема в телетоне
+- подхачить нормальную обработку пропущенных сообщений можно через базу, тк ИД сообщений в канале последовательны
+- ! надо либо поддержать мегагруппы, либо заблочить их добавление
+- ! forwarders должны игнорить сообщения от бота иначе лупы
+- !!! почему то у форвардера куча не приджойненных каналов. что это за каналы и почему при рестарте они джойнятся?
+    ??? FloodWait единственная проблема?
+
+features:
+26. !! filters:
+26.1 ad filtering
+26.2 duplicates filtering ???
+11. allow user to change localization and use language he asked for
+12. Добавить шаблоны с набором каналов типа memes (в который по умолчанию входят двач и тд).
+    - При чем можно отдельно сделать канал где можно будет динамически менять
+34. support supergroups
+40. добавить возможность сохранять текущий набор каналов и как то его передавать другим
+41. рейтинг контента в рамках бота: потом по нему можно выбирать какие каналы оставлять в компиляции и просто
+    репортить юзеру статистику, чтобы он сам мог принять решение
+42. ! /report для юзеров
+43. ! /all сделать с префиксом/тегом #dev_announcement или типа того
+44. ! /all сделать language-specific
+46. catch-up по cmd флажку только
+47. !! есть аобсолютно ебланский лимит на отправку сообщений телеграм ботом, см https://core.telegram.org/bots/faq#broadcasting-to-users
+    эта хуйня все компрометирует.
+    - посчитать соотв. текущий MPS
+    - мб надо будет делать множество ботов
+
+
+error handling / monitoring:
+- ! при User is blocked дизейблить юзера
+- есть идейка по автоматическому рестарту при зависоне: отдельный сервис подписывается через фидбота на свой канал.
+    в этот канал раз в N времени постится сообщение. если оно не приходит через фидбота через X времени, то рестарт всех сервисов
+32. sdelat norm error handling: ne zaverwatsa esli v listen loop-e exception
+25. !! add exception handling on postgres err (report to user somethings s wrong)
+
+4. timers monitoring
+7. save command logs separately somehow for analytics?
+
+deploy:
+- use docker
+
+other:
+2. забиваться сразу что может быть несколько форвардеров (для усложнения бана в популярных каналах)
+    2.1 sdelat chto multiple forwarders sidyat na raznih kanalah. eto nado tk est ogranichenia skolko channels join s 1 akkaunta
+    2.2 forwarders should not leave channels immediately - or it might be abused. leave not monitored channels at 3 AM for example
+9. support channels as forwards target
+10. ! catch group->supergroup transition somehow
+13. add request for /start on group join
+17. add retries to network ops -if telethon doesnt have it already
+19. how to run multiple instances to utilize multiple cores?
+
+23. sql: prepared statements?
+
+28. Process somehow bot being kicked from group OR private chat history deletion/leave
+29. freeze requirements
+
+33. forwarder: (low prior.) Add some "leaving channel" logic (once a day perhaps?)
+34. ! resolver: instead of joining on all reqs try caching
+
+
+feedback:
+- побольше задержку между хелпами
+- красивее help оформить
+- стандартные категории
+- при потере связи могут теряться апдейты. как то валидировать?
+- автоматизировать создание отдельного чата: командой боту например и чтобы сервис-юзер
+    в фоне создавал чат и инвайтил туда юзера и бота и ливал

@@ -1,0 +1,10 @@
+[Unit]
+Description = "forwarder #%i"
+Requires = postgresql-12.service
+
+[Service]
+WorkingDirectory = /root/telegram_filtered_feed/forwarder/forwarder%i
+ExecStart = /bin/bash ../../etc/run_forwarder.sh %i
+
+Restart=always
+RestartSec=3
